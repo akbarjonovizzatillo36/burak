@@ -1,3 +1,1 @@
-console.log('====================================');
-console.log("FRONTEND JS Starts");
-console.log('====================================');
+console.log("Basic frontend javascript file");
