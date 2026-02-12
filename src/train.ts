@@ -1,15 +1,5 @@
-// TASK P:
-
-// Parametr sifatida yagona object qabul qiladigan function yozing.
-// Qabul qilingan objectni nested array sifatida convert qilib qaytarsin
-
-// MASALAN: objectToArray( {a: 10, b: 20}) return [['a', 10], ['b', 20]]
-
-
-
-function objectToArray(obj: Record<string, any>): [string, any][] {
-    return Object.entries(obj);
+function hasProperty(obj: object, key: string): boolean {
+  return Object.keys(obj).includes(key);
 }
-
-const result = objectToArray({ a: 10, b: 20 });
-console.log(result);
+console.log(hasProperty({ name: "BMW", model: "M3" }, "model")); // true
+console.log(hasProperty({ name: "BMW", model: "M3" }, "year"));  // false
