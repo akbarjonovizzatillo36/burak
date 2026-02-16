@@ -1,15 +1,27 @@
-// TASK R
+// TASK S
 
-// Shunday function yozing, u string parametrga ega bo'lsin.
-// Agar argument sifatida berilayotgan string, "1 + 2" bo'lsa,
-// string ichidagi sonlarin yig'indisni hisoblab, number holatida qaytarsin
+// Shunday function tuzing, u numberlardan tashkil topgan array qabul qilsin
+// va o'sha numberlar orasidagi tushib qolgan sonni topib uni return qilsin.
 
-// MASALAN: calculate("1 + 3"); return 4;
-// 1 + 3 = 4, shu sababli 4 natijani qaytarmoqda.
+// MASALAN: missingNumber([3, 0, 1]); return 2
+
+// Yuqoridagi misolda, berilayotgan sonlar tarkibini tartiblasak
+// '2' soni tushib qolgan
 
 
-function calculate(expression: string): number {
-  const [a, b] = expression.split(" + ");
-  return Number(a) + Number(b);
+function missingNumber(nums: number[]): number {
+  nums.sort((a, b) => a - b);
+
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== i) {
+      return i;
+    }
+  }
+
+  return nums.length;
 }
-console.log(calculate("1 + 3"));
+console.log(missingNumber([3, 0, 1])); 
+
+
+
+
