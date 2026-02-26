@@ -1,23 +1,11 @@
-// TASK V
+function chunkArray(arr: number[], size: number): number[][] {
+  const result = [];
 
-// Shunday function yozing, uni string parametri bo'lsin.
-// Va bu function stringdagi har bir harfni o'zi bilan
-// necha marotaba taktorlanganligini ko'rsatuvchi object qaytarsin.
-  
-// MASALAN: countChars("hello") return {h: 1, e: 1, l: 2, o: 1}
-
-// Yuqoridagi misolda, 'hello' so'zi tarkibida
-// qatnashgan harflar necha marotaba takrorlangini bilan
-// object sifatida qaytarilmoqda.
-
-function countChars(str: string): Record<string, number> {
-  const result: Record<string, number> = {};
-
-  for (const char of str) {
-    result[char] = (result[char] || 0) + 1;
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
   }
 
   return result;
 }
 
-console.log(countChars("hello"));
+console.log(chunkArray([1,2,3,4,5,6,7,8,9,10], 3));
