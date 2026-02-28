@@ -38,8 +38,8 @@ class MemberService {
 
         const member = await this.memberModel
             .findOne(
-                { memberNick: input.memberNick, memberStatus: { $ne: MemberStatus.DELETE } },
-                { memberNick: 1, memberPassword: 1, memberStatus: 1 }
+                { memberNick: input.memberNick, memberStatus: { $ne: MemberStatus.DELETE } },  //Filtering 
+                { memberNick: 1, memberPassword: 1, memberStatus: 1 }                   // Projection
             )
             .exec();
         if (!member) { throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK); }
@@ -59,6 +59,8 @@ class MemberService {
         return await this.memberModel.findById(member._id).lean().exec();
     }
 
+    // Lean => Moongose => Document Object => JS Object
+
 
     public async getMemberDetail(member: Member): Promise<Member> {
         const memberId = shapeIntoMongooseObjectId(member._id);
@@ -71,6 +73,35 @@ class MemberService {
         return result;
     }
 
+    public async updateMember(
+        member: Member,
+        input: MemberUpdateInput
+    ): Promise<Member> {
+        const memberId = shapeIntoMongooseObjectId(member._id);
+        const result = await this.memberModel
+            .findOneAndUpdate({ _id: memberId }, input, { new: true })
+            .exec();
+        if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+
+        return result;
+    }
+
+    public async getTopUsers(): Promise<Member[]> {
+        const result = await this.memberModel
+            .find({
+                memberStatus: MemberStatus.ACTIVE,
+                memberPoints: { $gte: 1 },
+            })
+            .sort({ memberPoints: -1 })
+            .limit(4)
+            .exec();
+
+        if (!result) {
+            throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+        }
+
+        return result;
+    }
 
     //SSR
 
