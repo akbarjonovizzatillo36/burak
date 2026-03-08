@@ -1,14 +1,7 @@
-function sumEvens(arr: number[]): number {
-  let sum = 0;
-
-  for (let num of arr) {
-    if (num % 2 === 0) {
-      sum += num;
-    }
-  }
-
-  return sum;
+function randomBetween(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-console.log(sumEvens([1, 2, 3]));     
-console.log(sumEvens([1, 2, 3, 2]));   
+
+const result = randomBetween(30, 50);
+console.log(result);

@@ -27,10 +27,10 @@ class OrderService {
     ): Promise<Order> {
         const memberId = shapeIntoMongooseObjectId(member._id);
         console.log("memberId:", memberId);
-        const amount = input.reduce((accumulator: number, item: OrderItemInput) => {
+        const amount = input.reduce((accumulator: number, item: OrderItemInput) => { // Input array ichidagi har bir item uchun narx va miqdor ko‘paytirilib umumiy summa hisoblanmoqda.
             return accumulator + item.itemPrice * item.itemQuantity;
         }, 0);
-        const delivery = amount < 100 ? 5 : 0;
+        const delivery = amount < 100 ? 5 : 0;     // Agar order summasi 100 dan kichik bo‘lsa delivery narxi 5, aks holda 0 bo‘ladi.
 
         try {
             const newOrder: Order = await this.orderModel.create({
@@ -74,9 +74,9 @@ class OrderService {
 
         const result = await this.orderModel
             .aggregate([
-                { $match: matches },
-                { $sort: { updateAt: -1 } },
-                { $skip: (inquiry.page - 1) * inquiry.limit },
+                { $match: matches }, // filtering 
+                { $sort: { updatedAt: -1 } }, // updateAt bo‘yicha kamayish tartibida (eng yangi order birinchi).
+                { $skip: (inquiry.page - 1) * inquiry.limit }, // Vazifasi: pagination → dastlabki (page-1)*limit ta hujjatni o‘tkazib yubor.
                 { $limit: inquiry.limit },
                 {
                     $lookup: {
